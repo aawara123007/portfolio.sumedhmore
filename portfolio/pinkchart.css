@@ -1,0 +1,68 @@
+.dashboard-section {
+    background-color: #000000;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  
+  .dashboard-section .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+min-height: 500px;
+  }
+  
+  .dashboard-section .content-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  /* Chart Card */
+  .dashboard-section .chart-card {
+    width: 200px;
+    height: 180px;
+    max-width: 90%;
+    background: #0a192f;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    width: calc(100% - 40px); /* Adds breathing space */
+    margin-bottom: 20px;
+  }
+  
+  .dashboard-section .chart-header h2 {
+    color: #ffffff;
+    margin: 0;
+    font-size: 22px;
+  }
+  
+  .dashboard-section .chart-header p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  
+  .dashboard-section .positive {
+    color: #00ffcc;
+  }
+  
+  .dashboard-section canvas {
+    width: 100%;
+    height: auto;
+    max-width: 400px;
+  }
+  
+  
+    
+  @media (max-width: 600px) {
+    .dashboard-section .content-wrapper {
+      flex-direction: column;
+    }
+  
+    .dashboard-section .chart-card {
+      width: 100%;
+      height: auto;
+    }
+  }
+  

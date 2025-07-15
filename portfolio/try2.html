@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIRA Tool</title>
+
+    <!-- Google Fonts: Inter for general text, Courier Prime for code-like sections -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Courier+Prime&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- jQuery and Bootstrap JS (Needed for dropdowns, loaded before custom scripts) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        /* Define CSS variables for consistent accent colors */
+        :root {
+            --accent: #00ff00; /* Bright green for accent */
+            --accent-glow: rgba(0, 255, 0, 0.6); /* Green with transparency for glow */
+            --dark-bg: #0d0d0d;
+            --darker-bg: #010817;
+            --light-text: #e0e0e0;
+            --cyan-text: #00ffcc;
+            --purple-hover: #ff00ff;
+            --content-bg: #1a1a1a;
+            --red-color: #ff0000;
+            --green-color: #0f6f02;
+            --aqua-color: #00ffff;
+        }
+
+        /* Global Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Background glow effect */
+        .glow-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 100% 0%, rgba(0, 255, 0, 0.25), transparent 70%);
+            animation: glow-animation 10s infinite alternate;
+            z-index: 0;
+        }
+
+        @keyframes glow-animation {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        /* Navbar and Footer */
+        .navbar {
+            background-color: var(--darker-bg);
+            color: var(--cyan-text);
+            z-index: 10;
+            width: 100%;
+            flex-shrink: 0;
+            padding: 1rem; /* p-4 */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-lg */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 1.25rem; /* text-xl */
+            font-weight: bold;
+            color: var(--cyan-text) !important;
+            font-family: 'Courier Prime', monospace;
+        }
+
+        .navbar-nav {
+            display: flex;
+            align-items: center;
+            list-style: none;
+            margin-left: auto; /* ml-auto */
+            padding: 0;
+        }
+
+        .navbar-nav li {
+            margin-left: 1rem; /* space-x-4 */
+        }
+
+        .nav-link {
+            color: var(--cyan-text) !important;
+            transition: color 0.3s ease;
+            font-family: 'Courier Prime', monospace;
+        }
+
+        .nav-link:hover {
+            color: var(--purple-hover) !important;
+        }
+
+        /* Main layout container (sidebar + content) */
+        .main-layout-container {
+            display: flex;
+            flex-grow: 1;
+            min-height: calc(100vh - 64px - 4rem); /* Full height minus navbar and footer height (approx 4rem for footer) */
+        }
+
+        /* Sidebar */
+        #sidebar {
+            background-color: var(--darker-bg);
+            padding: 20px;
+            width: 250px; /* Fixed width for sidebar on larger screens */
+            flex-shrink: 0;
+            position: sticky;
+            top: 64px;
+            height: calc(100vh - 64px);
+            border-right: 1px solid rgba(0, 255, 204, 0.1);
+            z-index: 5;
+            overflow-y: auto;
+        }
+
+        #sidebar .nav-link {
+            color: var(--cyan-text) !important;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            font-family: 'Courier Prime', monospace;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        #sidebar .nav-link:hover {
+            background-color: rgba(0, 255, 204, 0.1);
+            color: var(--purple-hover) !important;
+        }
+
+        #sidebar img {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.3s ease;
+            margin-right: 10px;
+        }
+
+        #sidebar .nav-link:hover img {
+            transform: scale(1.2);
+        }
+
+        /* Main Content Area */
+        main {
+            background-color: var(--content-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+            margin-top: 1rem;
+            position: relative;
+            z-index: 1;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        h1, h2 {
+            color: var(--cyan-text);
+            font-family: 'Courier Prime', monospace;
+            text-shadow: 0 0 5px var(--cyan-text), 0 0 10px var(--purple-hover);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Custom Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 12% 5%;
+            background: radial-gradient(circle at 75% 30%, var(--accent-glow) 0%, transparent 30%);
+        }
+        .hero-content {
+            flex: 1;
+            padding-right: 5rem;
+        }
+        .hero-image {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        .profile-img {
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-glow);
+            animation: float 3s ease-in-out infinite;
+            filter: grayscale(0.2) contrast(1.1);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--accent) 30%, #ffffff 70%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+        .hero .highlight {
+            font-weight: bold; /* Added for highlight class */
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, var(--accent), #27ae60);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+
+        /* Custom Dashboard Section */
+        .custom-dashboard-section {
+            padding: 2rem;
+            background-color: var(--content-bg);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+            margin-top: 2rem;
+        }
+
+        .custom-dashboard-section h2 {
+            font-family: 'Courier Prime', monospace;
+            color: var(--cyan-text);
+            text-shadow: 0 0 8px rgba(0, 255, 204, 0.7);
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 2.2rem;
+        }
+
+        .custom-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .custom-card-link {
+            text-decoration: none;
+            display: block;
+        }
+
+        .custom-card {
+            background-color: var(--darker-bg);
+            border: 2px solid;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .custom-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.7);
+        }
+
+        .custom-card-green {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+        }
+        .custom-card-green:hover { box-shadow: 0 0 30px rgba(0, 255, 0, 0.9); }
+
+        .custom-card-red {
+            border-color: var(--red-color);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        .custom-card-red:hover { box-shadow: 0 0 30px rgba(255, 0, 0, 0.9); }
+
+        .custom-card-aqua {
+            border-color: var(--aqua-color);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        .custom-card-aqua:hover { box-shadow: 0 0 30px rgba(0, 255, 255, 0.9); }
+
+        .custom-card-title {
+            font-family: 'Courier Prime', monospace;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--cyan-text);
+        }
+
+        .custom-card-text {
+            font-family: 'Courier Prime', monospace;
+            font-size: 3rem;
+            font-weight: bolder;
+            color: var(--cyan-text);
+        }
+        .custom-card-green .custom-card-title, .custom-card-green .custom-card-text { color: var(--accent); }
+        .custom-card-red .custom-card-title, .custom-card-red .custom-card-text { color: var(--red-color); }
+        .custom-card-aqua .custom-card-title, .custom-card-aqua .custom-card-text { color: var(--aqua-color); }
+
+
+        /* Chart Containers */
+        .chart-container-custom, .chart-card-custom {
+            background-color: var(--darker-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: box-shadow 0.3s ease;
+        }
+        .chart-container-custom:hover, .chart-card-custom:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.7);
+        }
+
+        .chart-header-custom h2 {
+            font-size: 1.8rem;
+            color: var(--light-text);
+            text-shadow: none;
+            margin-bottom: 0.5rem;
+        }
+        .chart-header-custom p {
+            color: #a0a0a0;
+            font-size: 1rem;
+        }
+        .positive-custom {
+            color: var(--red-color); /* Red for negative trend */
+            font-weight: bold;
+        }
+
+        /* Progress Bar */
+        .progress-container-custom {
+            margin-top: 2.5rem;
+            text-align: center;
+            padding: 1.5rem;
+            background-color: var(--darker-bg);
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            margin-bottom: 2.5rem;
+        }
+        .progress-container-custom h3 {
+            font-family: 'Courier Prime', monospace;
+            color: var(--cyan-text);
+            text-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+        .progress-bar-track-custom {
+            width: 90%;
+            height: 30px;
+            background-color: rgba(0, 255, 204, 0.1);
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--cyan-text);
+            box-shadow: inset 0 0 5px rgba(0, 255, 204, 0.5);
+        }
+        .progress-bar-fill-custom {
+            height: 100%;
+            background-color: var(--cyan-text);
+            font-size: 1.1rem;
+            color: var(--darker-bg);
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: width 1s ease-in-out;
+            border-radius: 15px 0 0 15px;
+        }
+        .progress-label-custom {
+            color: var(--cyan-text);
+            margin-top: 1rem;
+            font-family: 'Courier Prime', monospace;
+            font-size: 1.1rem;
+        }
+        .dropdown-custom {
+            display: inline-block;
+            position: relative;
+            margin-left: 1rem;
+        }
+        .dropdown-toggle-custom {
+            background: none;
+            border: none;
+            color: var(--cyan-text);
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+        .dropdown-toggle-custom:hover {
+            background-color: rgba(0, 255, 204, 0.1);
+        }
+        .dropdown-menu-custom {
+            background-color: var(--darker-bg);
+            border: 1px solid var(--cyan-text);
+            border-radius: 8px;
+            position: absolute;
+            z-index: 10;
+            min-width: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 5px;
+            padding: 0.5rem 0;
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+        }
+        .dropdown-item-custom {
+            color: var(--cyan-text);
+            font-family: 'Courier Prime', monospace;
+            padding: 0.75rem 1rem;
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .dropdown-item-custom:hover {
+            background-color: rgba(0, 255, 204, 0.2);
+            color: var(--purple-hover);
+        }
+
+        /* Chart Grid (for Progress Circle and Yellow Chart) */
+        .chart-grid-custom {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .chart-grid-custom {
+                grid-template-columns: 200px 1fr;
+            }
+        }
+
+        /* Circular Risk Card */
+        .risk-card-custom {
+            width: 200px;
+            height: 200px;
+            background-color: var(--darker-bg);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 0 15px rgb(2, 198, 2);
+            text-align: center;
+            margin: 20px auto;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        .risk-card-custom:hover {
+            box-shadow: 0 0 30px rgb(2, 198, 2);
+            transform: scale(1.05);
+        }
+        .progress-circle {
+            width: 180px;
+            height: 180px;
+            background: conic-gradient(
+                var(--red-color) calc(var(--percent) * 1%),
+                #059611 calc(var(--percent) * 1%)
+            );
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .progress-circle::before {
+            content: '';
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background-color: var(--darker-bg);
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .progress-circle .percent {
+            font-size: 36px;
+            color: var(--red-color);
+            z-index: 2;
+            font-family: 'Courier Prime', monospace;
+        }
+        .percent span {
+            font-size: 20px;
+        }
+
+        /* Custom Table */
+        .table-heading-custom {
+            font-family: 'Courier Prime', monospace;
+            color: var(--cyan-text);
+            text-shadow: 0 0 8px rgba(0, 255, 204, 0.7);
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 2.2rem;
+        }
+        .table-custom {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            color: var(--cyan-text);
+            border: 2px solid var(--aqua-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+        .table-custom th, .table-custom td {
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            padding: 1rem;
+            font-family: 'Courier Prime', monospace;
+            text-align: left;
+        }
+        .table-custom th {
+            background-color: rgba(0, 255, 204, 0.1);
+            color: var(--aqua-color);
+            font-weight: bold;
+        }
+        .table-custom tbody tr:nth-child(odd) {
+            background-color: rgba(0, 255, 204, 0.05);
+        }
+        .table-custom tbody tr:hover {
+            background-color: rgba(0, 255, 204, 0.15);
+        }
+        .btn-custom-view {
+            background-color: var(--cyan-text);
+            color: var(--darker-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            font-weight: bold;
+        }
+        .btn-custom-view:hover {
+            background-color: #00cc00;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        /* Contact Section Form */
+        .contact-form .form-control {
+            background-color: #111;
+            border: 1px solid var(--cyan-text);
+            color: var(--cyan-text);
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+        .contact-form .form-control:focus {
+            outline: none;
+            box-shadow: 0 0 10px var(--red-color);
+            border-color: var(--accent); /* Green border on focus */
+        }
+        .contact-form .mb-4 {
+            margin-bottom: 1rem;
+        }
+        .contact-form label {
+            display: block;
+            color: #a0a0a0; /* text-gray-400 */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .contact-form .btn-success {
+            background-color: var(--cyan-text);
+            border: none;
+            color: #111;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .contact-form .btn-success:hover {
+            background-color: #008080;
+            color: #fff;
+        }
+        .contact-form .btn-primary {
+            background-color: var(--cyan-text);
+            border: none;
+            color: #111;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            margin-top: 1rem; /* mt-4 */
+            margin-left: 1rem; /* ml-4 */
+        }
+        .contact-form .btn-primary:hover {
+            background-color: #008080;
+            color: #fff;
+        }
+        #llmResponseContainer {
+            margin-top: 1.5rem; /* mt-6 */
+        }
+        #llmResponse {
+            padding: 1rem; /* p-4 */
+            background-color: #1f2937; /* bg-gray-800 */
+            border-radius: 0.5rem; /* rounded-lg */
+            border: 1px solid #374151; /* border border-gray-700 */
+            color: #d1d5db; /* text-gray-300 */
+            white-space: pre-wrap;
+        }
+        #copyResponseBtn {
+            background-color: var(--cyan-text);
+            border: none;
+            color: #111;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            margin-top: 0.5rem; /* mt-2 */
+        }
+        #copyResponseBtn:hover {
+            background-color: #008080;
+            color: #fff;
+        }
+
+
+        /* Code Animation */
+        #code-animation {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 280px;
+            height: 300px;
+            background-color: rgba(1, 8, 23, 0.9);
+            color: var(--cyan-text);
+            font-family: 'Courier New', Courier, monospace;
+            padding: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0px 0px 20px rgba(0, 255, 255, 0.7);
+            z-index: 100;
+            border: 1px solid var(--aqua-color);
+        }
+
+        #code-animation span {
+            display: block;
+            white-space: pre;
+            animation: scrolling 15s linear infinite;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        @keyframes scrolling {
+            0% { transform: translateY(100%); }
+            100% { transform: translateY(-100%); }
+        }
+
+        /* Responsive adjustments for layout */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.75rem; /* p-3 */
+            }
+            .navbar-brand {
+                font-size: 1.1rem; /* text-lg */
+            }
+            .navbar-nav li {
+                margin-left: 0.5rem; /* space-x-2 */
+            }
+            .nav-link {
+                font-size: 0.9rem;
+            }
+
+            .main-layout-container {
+                flex-direction: column;
+            }
+            #sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid rgba(0, 255, 204, 0.1);
+                top: 0;
+                padding: 1rem;
+            }
+            main {
+                margin-top: 0;
+                padding: 1rem;
+            }
+            .hero {
+                padding: 2rem 1rem;
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-content {
+                padding-right: 0;
+                margin-bottom: 2rem;
+            }
+            .hero-image {
+                margin-top: 0;
+            }
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .profile-img {
+                width: 200px;
+                height: 200px;
+            }
+            .custom-card-grid {
+                grid-template-columns: 1fr;
+            }
+            .chart-grid-custom {
+                grid-template-columns: 1fr;
+            }
+            .risk-card-custom {
+                margin-left: auto;
+            }
+            #code-animation {
+                width: calc(100% - 40px);
+                left: 20px;
+                right: 20px;
+                bottom: 10px;
+                height: 200px;
+            }
+            .custom-dashboard-section h2, .table-heading-custom {
+                font-size: 1.8rem;
+            }
+            .custom-card-title {
+                font-size: 1.5rem;
+            }
+            .custom-card-text {
+                font-size: 2.5rem;
+            }
+            .progress-container-custom h3 {
+                font-size: 1.4rem;
+            }
+            .progress-bar-fill-custom {
+                font-size: 0.9rem;
+            }
+            .progress-label-custom {
+                font-size: 0.9rem;
+            }
+            .chart-header-custom h2 {
+                font-size: 1.5rem;
+            }
+            .chart-header-custom p {
+                font-size: 0.9rem;
+            }
+            .btn-custom-view {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            .contact-form .form-control {
+                padding: 0.4rem;
+            }
+            .contact-form .btn-success, .contact-form .btn-primary {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .hero h1 {
+                font-size: 3.5rem;
+            }
+            .hero-content {
+                padding-right: 2rem;
+            }
+            .profile-img {
+                width: 300px;
+                height: 300px;
+            }
+            #sidebar {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body class="glow-background">
+
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">Exploit X | Cyber Offense by Aawara</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('hero-section')">About me</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('dashboard-section')">Skills</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('projects-section')">Projects</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('biodata-section')">Biodata</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('resume-section')">Resume</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('experience-section')">Experience</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('contact-section')">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Layout Container: Sidebar and Content -->
+    <div class="main-layout-container">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-col space-y-2">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('certifications-section')">
+                            <img src="https://placehold.co/24x24/00ffcc/000000?text=Cert" alt="Certifications" />Certifications
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://youtube.com/@sumedhmoreofficial5922?si=h_KGu0J9UtjH60bk" target="_blank">
+                            <img src="https://placehold.co/24x24/00ffcc/000000?text=YT" alt="YouTube" />YouTube
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('github-section')">
+                            <img src="https://placehold.co/24x24/00ffcc/000000?text=Git" alt="GitHub" />GitHub
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.instagram.com/sumedh_more01/" target="_blank">
+                            <img src="https://placehold.co/24x24/00ffcc/000000?text=Insta" alt="Instagram" />Instagram
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.linkedin.com/in/sumedh-more-cybersecurityengineer/" target="_blank">
+                            <img src="https://placehold.co/24x24/00ffcc/000000?text=Lkd" alt="LinkedIn" />LinkedIn
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('resume-section')">
+                            <img src="https://placehold.co/24x24/00ffcc/000000?text=Res" alt="Resume" />Resume
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main role="main">
+            <!-- Hero Section - Full-Stack Developer View (Custom Styled) -->
+            <section id="hero-section" class="section active hero">
+                <div class="hero-content">
+                    <h1>Full-Stack Developer</h1>
+                    <p>Building digital experiences that merge creativity with technology</p>
+                    <p class="highlight">Specializing in modern web development and cyber systems</p>
+                    <a href="#contact" class="cta-button">Let's Connect</a>
+                </div>
+                <div class="hero-image">
+                    <img src="https://placehold.co/400x400/000000/FFFFFF?text=Profile" alt="Profile Image" class="profile-img">
+                </div>
+            </section>
+
+            <!-- Dashboard Section (Custom Styled) -->
+            <section id="dashboard-section" class="section hidden custom-dashboard-section">
+                <h2>Dashboard Overview</h2>
+                <div class="custom-card-grid">
+                    <a href="#" class="custom-card-link">
+                        <div class="custom-card custom-card-green">
+                            <h5 class="custom-card-title">Technical Skills</h5>
+                            <p class="custom-card-text">8</p>
+                        </div>
+                    </a>
+                    <a href="#" class="custom-card-link">
+                        <div class="custom-card custom-card-red">
+                            <h5 class="custom-card-title">Projects & Creations</h5>
+                            <p class="custom-card-text">12</p>
+                        </div>
+                    </a>
+                    <a href="#" class="custom-card-link">
+                        <div class="custom-card custom-card-aqua">
+                            <h5 class="custom-card-title">My Digital Toolkit</h5>
+                            <p class="custom-card-text">128</p>
+                        </div>
+                    </a>
+                </div>
+
+                <h2>Risk Assessment of Common Security Flaws</h2>
+                <div class="chart-container-custom">
+                    <canvas id="cryptoRiskChart"></canvas>
+                </div>
+
+                <!-- Progress Bar Section -->
+                <div class="progress-container-custom">
+                    <h3>
+                        My Progress in Cyber Security
+                        <div class="dropdown-custom">
+                            <button class="dropdown-toggle-custom" type="button" id="progressDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            </button>
+                            <div class="dropdown-menu-custom" aria-labelledby="progressDropdown">
+                                <button class="dropdown-item-custom" onclick="updateProgress('Network Security', 30)">Network Security: 30%</button>
+                                <button class="dropdown-item-custom" onclick="updateProgress('Web Application Security', 55)">Web Application Security: 55%</button>
+                                <button class="dropdown-item-custom" onclick="updateProgress('Penetration Testing', 15)">Penetration Testing: 15%</button>
+                                <button class="dropdown-item-custom" onclick="updateProgress('Incident Response', 70)">Incident Response: 70%</button>
+                            </div>
+                        </div>
+                    </h3>
+                    <div class="progress-bar-track-custom">
+                        <div id="progress-bar" class="progress-bar-fill-custom" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
+                    </div>
+                    <p id="progress-label" class="progress-label-custom">Progress in Web Application Security: 75%</p>
+                </div>
+
+                <div class="chart-grid-custom">
+                    <!-- Progress Circle Card -->
+                    <div class="risk-card-custom">
+                        <div class="progress-circle" style="--percent: 75;">
+                            <div class="percent">75<span>%</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Yellow Chart Card -->
+                    <div class="chart-card-custom">
+                        <div class="chart-header-custom">
+                            <h2>85,247 <span class="positive-custom">⬇ 23.7%</span></h2>
+                            <p>Total Accounts</p>
+                        </div>
+                        <canvas id="yellowChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Pink Chart Card -->
+                <div class="chart-card-custom">
+                    <div class="chart-header-custom">
+                        <h2>Cyber Attacks</h2>
+                        <p>$6 trillion per year</p>
+                    </div>
+                    <canvas id="pinkChart"></canvas>
+                </div>
+
+                <!-- Sample Table -->
+                <h2 class="table-heading-custom">Sample Table</h2>
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>Hobbies</th>
+                            <th>Expertise</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Penetration Testing</td>
+                            <td>High</td>
+                            <td><button class="btn-custom-view">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>Painting</td>
+                            <td>Low</td>
+                            <td><button class="btn-custom-view">View</button></td>
+                        </tr>
+                        <tr>
+                            <td>Programming</td>
+                            <td>Medium</td>
+                            <td><button class="btn-custom-view">View</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Other Sections (initially hidden) -->
+            <section id="projects-section" class="section hidden">
+                <h2>My Projects</h2>
+                <p>Details about my projects will go here.</p>
+            </section>
+            <section id="biodata-section" class="section hidden">
+                <h2>Biodata</h2>
+                <p>My personal and professional biodata.</p>
+            </section>
+            <section id="resume-section" class="section hidden">
+                <h2>Resume</h2>
+                <p>My full resume can be viewed or downloaded here.</p>
+            </section>
+            <section id="experience-section" class="section hidden">
+                <h2>Experience</h2>
+                <p>My work experience and roles.</p>
+            </section>
+            <section id="contact-section" class="section hidden">
+                <h2>Contact Me</h2>
+                <p>How to get in touch.</p>
+                <form class="contact-form">
+                    <div class="mb-4">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="Your Name">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" placeholder="Your Email">
+                    </div>
+                    <div class="mb-4">
+                        <label for="message">Message</label>
+                        <textarea id="message" rows="5" class="form-control" placeholder="Your Message"></textarea>
+                    </div>
+                    <button type="submit" class="btn-success">Send Message</button>
+                    <button type="button" class="btn-primary" id="suggestReplyBtn">✨ Suggest Reply</button>
+                </form>
+                <div id="llmResponseContainer" class="hidden">
+                    <div id="llmResponse"></div>
+                    <button id="copyResponseBtn" class="hidden">Copy to Clipboard</button>
+                </div>
+            </section>
+            <section id="certifications-section" class="section hidden">
+                <h2>Certifications</h2>
+                <p>My cybersecurity certifications.</p>
+            </section>
+            <section id="github-section" class="section hidden">
+                <h2>GitHub</h2>
+                <p>My GitHub repositories.</p>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Code Animation -->
+    <div id="code-animation">
+        <span>> Initializing encryption module...</span>
+        <span>> Loading security protocols...</span>
+        <span>> Generating keys for SSL...</span>
+        <span>> Connection established successfully.</span>
+        <span>> System integrity verified.</span>
+        <span>> Initializing encryption module...</span>
+        <span>> Loading security protocols...</span>
+        <span>> Generating keys for SSL...</span>
+        <span>> Establishing connection to server...</span>
+        <span>> Verifying digital certificates...</span>
+        <span>> Scanning network vulnerabilities...</span>
+        <span>> Securing communication channels...</span>
+        <span>> Analyzing threat reports...</span>
+        <span>> Encryption key rotation in progress...</span>
+        <span>> System integrity verified.</span>
+        <span>> Fetching asset logs...</span>
+        <span>> Generating compliance reports...</span>
+        <span>> Assessing risk factors...</span>
+        <span>> Network audit completed successfully.</span>
+        <span>> Disconnecting from server...</span>
+        <span>> Updating encryption protocols...</span>
+        <span>> System shutdown initiated...</span>
+    </div>
+
+    <footer class="footer">
+        <div class="container-footer">
+            <p>&copy; 2024 CIRA Tool. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Function to show/hide sections
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+                section.classList.remove('active');
+            });
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.remove('hidden');
+                targetSection.classList.add('active');
+            }
+        }
+
+        // Initialize Bootstrap dropdowns
+        $(document).ready(function() {
+            $('.dropdown-toggle').dropdown();
+        });
+
+        // Progress Bar Update Function
+        function updateProgress(field, progress) {
+            const progressBar = document.getElementById('progress-bar');
+            const progressLabel = document.getElementById('progress-label');
+
+            progressBar.style.transition = 'width 1s ease-in-out';
+            progressBar.style.width = progress + '%';
+            progressBar.setAttribute('aria-valuenow', progress);
+            progressBar.innerText = progress + '%';
+
+            if (progress > 50) {
+                progressBar.style.color = '#010817'; /* Dark text for light background */
+            } else {
+                progressBar.style.color = '#fff'; /* White text for dark background */
+            }
+
+            progressLabel.innerText = `Progress in ${field}: ${progress}%`;
+        }
+
+        // Chart.js for Crypto Risk Chart (Line Graph)
+        const cryptoRiskChartCtx = document.getElementById('cryptoRiskChart').getContext('2d');
+        const cryptoRiskChart = new Chart(cryptoRiskChartCtx, {
+            type: 'line',
+            data: {
+                labels: [
+                    ['Broken Access', 'Control'], ['Cryptographic', 'Failures'], ['Injection'],
+                    ['Insecure', 'Design'], ['Security', 'Misconfiguration'],
+                    ['Vulnerable &', 'Outdated Components'],
+                    ['Identification &', 'Authentication Failures'],
+                    ['Software & Data', 'Integrity Failures'],
+                    ['Security Logging &', 'Monitoring Failures'],
+                    ['Server-Side', 'Request Forgery']
+                ],
+                datasets: [{
+                    label: 'Risk Level',
+                    data: [9, 8, 9, 7, 8, 6, 7, 6, 5, 4],
+                    backgroundColor: 'rgba(0, 255, 204, 0.1)',
+                    borderColor: '#00ffcc',
+                    borderWidth: 2,
+                    fill: true,
+                    pointBackgroundColor: '#ff00ff',
+                    pointBorderColor: '#ff00ff',
+                    pointRadius: 6,
+                    pointHoverRadius: 8,
+                    pointBorderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                aspectRatio: 3,
+                plugins: {
+                    tooltip: { enabled: true },
+                    legend: {
+                        labels: { color: '#00ffcc' }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 10,
+                        ticks: { color: '#00ffcc', stepSize: 1 },
+                        grid: { color: 'rgba(0, 255, 204, 0.2)' }
+                    },
+                    x: {
+                        ticks: {
+                            maxRotation: 0, minRotation: 0, display: true, color: '#00ffcc',
+                            font: { size: 10 }
+                        },
+                        grid: { color: 'rgba(0, 255, 204, 0.2)' }
+                    }
+                }
+            }
+        });
+
+        // Chart.js for Pink Chart (Bar Chart)
+        const pinkChartCtx = document.getElementById('pinkChart').getContext('2d');
+        const pinkChart = new Chart(pinkChartCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Malware', 'Phishing', 'DDoS', 'Ransomware', 'Insider Threats'],
+                datasets: [{
+                    label: 'Attack Frequency',
+                    data: [12, 19, 3, 5, 2],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: '#e0e0e0' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    },
+                    x: {
+                        ticks: { color: '#e0e0e0' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    }
+                },
+                plugins: {
+                    legend: { labels: { color: '#e0e0e0' } },
+                    title: {
+                        display: true,
+                        text: 'Types of Cyber Attacks',
+                        color: '#00ffcc'
+                    }
+                }
+            }
+        });
+
+        // Chart.js for Yellow Chart (Line Chart)
+        const yellowChartCtx = document.getElementById('yellowChart').getContext('2d');
+        const yellowChart = new Chart(yellowChartCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Accounts Trend',
+                    data: [90000, 88000, 87000, 86000, 85247, 84000],
+                    borderColor: '#ffff00', /* Yellow color */
+                    backgroundColor: 'rgba(255, 255, 0, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#ffff00',
+                    pointBorderColor: '#ffff00',
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: { color: '#e0e0e0' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    },
+                    x: {
+                        ticks: { color: '#e0e0e0' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    }
+                },
+                plugins: {
+                    legend: { labels: { color: '#e0e0e0' } },
+                    title: {
+                        display: true,
+                        text: 'Total Accounts Trend',
+                        color: '#00ffcc'
+                    }
+                }
+            }
+        });
+
+        // Gemini API Integration for Contact Form
+        const suggestReplyBtn = document.getElementById('suggestReplyBtn');
+        const llmResponseContainer = document.getElementById('llmResponseContainer');
+        const llmResponse = document.getElementById('llmResponse');
+        const copyResponseBtn = document.getElementById('copyResponseBtn');
+
+        suggestReplyBtn.addEventListener('click', async () => {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            if (!name || !email || !message) {
+                llmResponseContainer.classList.remove('hidden');
+                llmResponse.innerText = 'Please fill in all fields (Name, Email, Message) to suggest a reply.';
+                copyResponseBtn.classList.add('hidden');
+                return;
+            }
+
+            llmResponseContainer.classList.remove('hidden');
+            llmResponse.innerText = 'Generating response... Please wait.';
+            copyResponseBtn.classList.add('hidden');
+
+            const prompt = `Please draft a polite and professional email reply to a contact request. The sender's name is "${name}", their email is "${email}", and their message is: "${message}". Start the reply with "Dear [Sender's Name]," and include a placeholder like "[Your Name]" at the end.`;
+
+            let chatHistory = [];
+            chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+            const payload = { contents: chatHistory };
+            const apiKey = ""; // If you want to use models other than gemini-2.0-flash or imagen-3.0-generate-002, provide an API key here. Otherwise, leave this as-is.
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const result = await response.json();
+
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    llmResponse.innerText = text;
+                    copyResponseBtn.classList.remove('hidden');
+                } else {
+                    llmResponse.innerText = 'Failed to generate a response. Please try again.';
+                    console.error('Gemini API response structure unexpected:', result);
+                }
+            } catch (error) {
+                llmResponse.innerText = 'An error occurred while connecting to the AI. Please check your network or try again later.';
+                console.error('Error calling Gemini API:', error);
+            }
+        });
+
+        copyResponseBtn.addEventListener('click', () => {
+            const textToCopy = llmResponse.innerText;
+            const textarea = document.createElement('textarea');
+            textarea.value = textToCopy;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                const originalText = copyResponseBtn.innerText;
+                copyResponseBtn.innerText = 'Copied!';
+                setTimeout(() => {
+                    copyResponseBtn.innerText = originalText;
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        });
+
+
+        // Initial section display
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('hero-section'); // Show hero section by default
+        });
+    </script>
+
+</body>
+</html>

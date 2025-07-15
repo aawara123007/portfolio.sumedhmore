@@ -1,0 +1,64 @@
+body {
+    background-color: #010817;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+  }
+  
+  .chart-card {
+    min-width: 300px;
+  width: 60%;
+  max-width: 500px; /* Optional to avoid oversized cards */
+  height: 100px; 
+    background: #0a192f;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+
+  
+  
+  canvas {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  
+  .chart-header h2 {
+    color: #ffffff;
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .chart-header p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  
+  .positive {
+    color: #00ffcc;
+    font-size: 16px;
+    margin-left: 10px;
+  }
+  
+  canvas#yellowChart {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    max-height: 300px; /* Adjust based on design */
+  }
+
+  @media (max-width: 600px) {
+    .chart-card {
+      width: 90%; 
+      min-width: unset; /* Allow smaller widths */
+    }
+    
+    canvas#yellowChart {
+      max-height: 200px;
+    }
+  }
+  
+
+  

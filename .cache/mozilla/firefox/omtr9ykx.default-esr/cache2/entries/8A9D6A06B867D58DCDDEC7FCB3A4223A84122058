@@ -1,0 +1,291 @@
+<html>
+<!-- ?PHP session_start(); ?-->
+<head>
+
+  <title>Fone Finder query form</title>
+<meta name = "viewport" content = "width = device-width">  
+<meta name="keywords"
+ content="phone, international, number, reverse search, npa, nxx, fonefinder, finder, area code, lookup, country, telephone, cell phone, prefix, area, investigate, research">
+  <meta name="description"
+ content="Telephone search engine that returns the city, state, and country of any phone number in the world.">
+  <meta name="GENERATOR" content="Mozilla/3.0Gold (Win95; U) [Netscape]">
+  <base href="https://www.fonefinder.net/index.php">
+<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+</script>
+<script type="text/javascript">
+_uacct = "UA-166063-1";
+urchinTracker();
+</script>
+</head>
+<body style="background-image: url(bkslant.jpg);" bgproperties="fixed">
+<center><img src="fofilogo.gif" alt="Fone Finder" height="60"
+ width="253">
+<br>
+
+
+<table style="width: 100%; text-align: left;" border="0" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+
+    <tr>
+<td style="vertical-align: top;">
+      <div style="text-align: center;">
+<!--
+-->
+<br>
+<font size="5">
+<a href='http://www.spokeo.com/?g=email_text_7_A7458793981'  target="_blank">Reverse Email Lookup</a>
+</font>
+
+<br>
+<br>
+
+      </center>
+      </div>
+      </td>
+
+
+<td style="vertical-align: top;">
+      <div style="text-align: center;">
+<font size="4">
+<br>
+</font>
+      </center>
+      </div>
+   </tr>
+  </tbody>
+</table>
+<br>
+
+
+</center>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    <tr align="left">
+      <td width="170"><img src="northamer.gif" alt="USA/Canada"
+ align="left" width="164"></td>
+      <td> <font color="#009900" size="+2">Search for USA/Canadian
+telephone
+numbers</font>
+      <table cellpadding="0" cellspacing="6">
+        <tbody>
+          <form method="get" action="findome.php"> <tr align="right"
+ valign="baseline">
+              
+          <tr>
+            <td style="text-align: right; vertical-align: top;"><span
+ style="font-weight: bold;">Area Code</span><br>
+            </td>
+            <td style="vertical-align: top; text-align: left;"><span
+ style="font-weight: bold;">Prefix -- </span><span
+ style="font-weight: bold;">4 digits</span><span
+ style="font-weight: bold;"> </span> </td>
+            <td style="vertical-align: top;"><br>
+            </td>
+            <td style="vertical-align: top;"><br>
+            </td>
+            <td style="vertical-align: top;"><br>
+            </td>
+          </tr>
+          <tr align="right" valign="baseline">
+            <td style="vertical-align: top; text-align: right;">(<input
+ name="npa" size="3"  maxlength="3" value=''>)<br>
+            </td>
+            <td style="vertical-align: top; text-align: right;"><input
+ name="nxx" size="3" maxlength="3" value='' >-<input name="thoublock" size="4"
+ maxlength="4" value='' >. . .</td>
+            <td style="vertical-align: top; text-align: left;"><input
+ name="usaquerytype" value="Search by Number" type="submit"
+ style="color: #ffffff;
+      background-color: #cc0000;
+      border-top: 2px solid #ff0000;
+      border-left: 2px solid #ff0000;
+      border-right: 2px solid #000000;
+      border-bottom: 2px solid #000000;"></td>
+            <td style="vertical-align: top;"><br>
+            </td>
+            <td style="vertical-align: top;">
+            <div style="text-align: left;font-weight: bold;background: yellow;">Enter 10 digits for best search.</div>
+            <div style="text-align: left;">Leave what you don't know blank. </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="vertical-align: top;"> or enter <span
+ style="font-weight: bold;">City name</span> </td>
+            <td style="vertical-align: middle; text-align: center;"><input
+      name="cityname" size="10" value="" maxlength="10"></td>
+            <td style="vertical-align: middle;"><input
+      name="usaquerytype" value="Search by City" type="submit"
+      style="color: #ffffff;
+      background-color: #cc0000;
+      border-top: 2px solid #ff0000;
+      border-left: 2px solid #ff0000;
+      border-right: 2px solid #000000;
+      border-bottom: 2px solid #000000;" ></td>
+            <td style="vertical-align: top;"><br>
+            </form>
+            </td>
+            <td style="vertical-align: middle;">
+              <form method="get" action="findzip.php">
+               &nbsp or <B>Zip code</B> &nbsp
+              <input name="zipcode" size="5" maxlength="5">&nbsp
+              <input name="zipquerytype" value="Search by Zip" type="submit"
+               style="color: #ffffff;
+               background-color: #cc0000;
+               border-top: 2px solid #ff0000;
+               border-left: 2px solid #ff0000;
+               border-right: 2px solid #000000;
+               border-bottom: 2px solid #000000;">
+              </FORM>
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    <tr align="left">
+      <td width="242"><img src="worldmap.gif" alt="World Map"
+ style="width: 242px; height: 159px;" align="left"></td>
+      <td> <font color="#000099" size="+2">Search international
+telephone numbers</font>
+      <center>
+      <table>
+        <tbody>
+          <tr align="right" valign="baseline">
+            <td valign="top"> <font align="right" size="+1"><b>
+            <form method="get" action="findint.php">Int'l Phone
+Number&nbsp;
+            </b></font> </td>
+            <td style="text-align: left;"><input name="intlnum"
+ size="14" value="" maxlength="14"></td>
+            <td align="left"><input name="intlquery"
+ value="Search by Number" type="submit"
+ style="color: #ffffff;
+ background-color: #cc0000;
+ border-top: 2px solid #ff0000;
+ border-left: 2px solid #ff0000;
+ border-right: 2px solid #000000;
+ border-bottom: 2px solid #000000;"> </td>
+            <td style="vertical-align: top;">
+            <div style="text-align: left;">Blanks match any value.<br>
+            </div>
+            <div style="text-align: left;">Omit leading "1" or "011".</div>
+            </td>
+          </tr>
+          <tr>
+            <td align="right" valign="top"> <font align="right"
+ size="+1"><b>Country Name&nbsp;</b></font> </td>
+            <td align="left" valign="top"><input name="intlname"
+ size="10" value="" maxlength="10"></td>
+            <td> <font align="right" size="+1"><b><input
+ name="intlquery" value="Search by Country" type="submit"
+ style="color: #ffffff;
+ background-color: #cc0000;
+ border-top: 2px solid #ff0000;
+ border-left: 2px solid #ff0000;
+ border-right: 2px solid #000000;
+ border-bottom: 2px solid #000000;"></b></font> </td>
+            <td style="vertical-align: top;"><br>
+            </td>
+          </tr>
+        </form>
+        </tbody>
+      </table>
+      </center>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<hr size="5" width="90%">
+
+<center>
+<table style="width: 100%; text-align: left;" border="0" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">
+      <div style="text-align: center;"> 
+      <div style="text-align: center;">
+      <div style="text-align: center;">
+      <center>
+Didn't find what you wanted? Try... <a href="http://www.fonefinder.net/resources.php">Fonefinder Resources</a> ..Our Favorites
+<br>
+
+VOIP - <a href="http://www.fonefinder.net/voip.php" target="_blank" OnClick="parent.location='onclickcounter.php?url=voip'">Voice Over Internet Protocol </a> - Facts and Updates
+
+      </center>
+      </div>
+      </div>
+      </div>
+      </td>
+      <td style="vertical-align: top; text-align: center;">
+Get the Facts - <a href="http://www.fonefinder.net/lnp.php" >Wireless/Local Number Portability</a> -&nbsp; and Updates
+<br>
+WIMax - <a href="http://www.fonefinder.net/wimax.php" target="_blank" OnClick="parent.location='onclickcounter.php?url=wimax'">Worldwide Interoperability for Microwave Access</a> - News and Products
+</td>
+    </tr>
+  </tbody>
+</table>
+
+</center>
+<center>
+<br>
+<font size = -1>Questions? Problems? -<a href="helpfaq.html"> Please read our
+FAQ</a> before you <a
+ href="javascript:location.href='mail' +'to:webmaster1'+'@primeris'+'.com';">write
+to me </a>regarding countries, reverse searches, people finder, area code updates, or telephone company changes.</font>
+<br>
+<br><small>FoneFinder has links to <a style="color: black; text-decoration:none; font-weight: normal" href="https://aucasinosonline.com/us/">other sites</a> but has no control over
+their content or business practices.<br>
+They are unaffiliated companies in which Fonefinder has no ownership in and does not endorse.</small></small><br>
+<br>
+Interested in advertising on fonefinder? <a
+ href="javascript:location.href='mail' +'to:webmaster'+'@fonescout'+'.com';">email us
+</a> for details
+<br>
+
+<BR><b><font size="-1">Copyright 1997-2010 Primeris, Inc. All Rights
+Reserved</font></b>
+<br>
+<a href="http://tahoerimlodge.com/#">
+<FONT COLOR="#FFFFFF">.</FONT></A>
+
+<a href="http://www.ripoffreport.com/auto-dealer-repairs/capital-ford-carson/capital-ford-carson-city-nevad-67cbc.htm">
+<FONT COLOR="#FFFFFF">.</FONT></A>
+
+<a href="http://www.scaminformer.com/scam-report/capital-ford-carson-city-nevada-ford-f150-2004-airbag-recall-dealer-damaged-steering-column-refuses-to-repair-mechanics-incompetent-liars-carson-city-c29378.html">
+<FONT COLOR="#FFFFFF">.</FONT></A>
+
+<a href="https://www.facebook.com/pages/ATT-Sucks/230368933646924"><FONT COLOR="#FFFFFF">.</FONT></A>
+
+<a href="http://att.pissedconsumer.com/"><FONT COLOR="#FFFFFF">.</FONT></A>
+
+<a href="http://www.complaintsboard.com/bycompany/atampt-a143.html"><FONT COLOR="#FFFFFF">.</FONT></A>
+
+<a href="http://www.complaintslist.com/mobile-providers/att/"><FONT COLOR="#FFFFFF">.</FONT></A>
+
+</center>
+</body>
+</html>
+;{)*ı'      füΩGfüΩ“G".úfüΩM   H    O^partitionKey=%28https%2Cfonefinder.net%29,:https://www.fonefinder.net/ necko:classified 1 strongly-framed 1 security-info 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 request-method GET response-head HTTP/1.1 200 OK
+Date: Tue, 23 Jul 2024 14:25:17 GMT
+Server: Apache
+X-Powered-By: PHP/5.6.40, PleskLin
+X-FRAME-OPTIONS: SAMEORIGIN
+Content-Type: text/html; charset=UTF-8
+ original-response-headers Date: Tue, 23 Jul 2024 14:25:17 GMT
+Server: Apache
+X-Powered-By: PHP/5.6.40
+X-Powered-By: PleskLin
+X-FRAME-OPTIONS: SAMEORIGIN
+Keep-Alive: timeout=5, max=100
+Connection: Keep-Alive
+Transfer-Encoding: chunked
+Content-Type: text/html; charset=UTF-8
+ ctid 1 uncompressed-len 0 net-response-time-onstart 6961 net-response-time-onstop 7016   &y

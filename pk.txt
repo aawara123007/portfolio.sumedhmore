@@ -1,0 +1,19 @@
+https://ccwj.edu.pk/note.php?id=92%27
+https://www.educators.edu.pk/news-events-detail?id=19
+https://gicwf.edu.pk/single_gallery.php?id=43
+[*] edu_web
+[*] information_schema
+[*] test
+
++---------------------+
+| com_regions         |
+| edu_regions         |
+| edu_tec             |
+| news_events         |
+| tec_attendies       |
+| tec_attendies_count |
+| tec_topics          |
+| web_logs            |
+
+
+

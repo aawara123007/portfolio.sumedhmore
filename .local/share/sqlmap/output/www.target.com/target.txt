@@ -1,0 +1,1 @@
+https://www.target.com/s?searchTerm=test (GET)  # /usr/bin/sqlmap -u https://www.target.com/s?searchTerm=test --dbs --batch --random-agent

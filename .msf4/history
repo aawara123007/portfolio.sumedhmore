@@ -1,0 +1,27 @@
+encoder
+-help
+-h
+encoding
+msfvenom -h
+msfvenom -e
+msfvenom --encoder
+ifconfig
+ls
+exit
+search exploit Apache httpd 2.4.51
+search exploit Samba smbd 4.6.2
+search exploit MiniServ 1.830
+searchsploit webmin 1.830
+search exploit Apache/2.4.51
+search auxiliary Apache/2.4.51
+search webmin rpc
+use exploit/linux/http/webmin_rpc_rce
+search ms??
+ms??
+search ms17-010
+show option
+show options
+use exploit/windows/smb/ms17_010_eternalblue
+show options
+searchsploit proftpd version
+exit

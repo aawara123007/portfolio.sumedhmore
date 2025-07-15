@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio - Aawara</title>
+    <link rel="stylesheet" href="port.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #010817;
+            color: #00ffcc;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .navbar, .footer {
+            background-color:#010817;
+        }
+
+        .navbar-brand, .nav-link {
+            color: #00ffcc !important;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #800080 !important; /* Purple hover effect */
+        }
+
+        .footer {
+            background-color: #111;
+            color: #00ffcc;
+        }
+
+        .footer p {
+            margin: 10px;
+        }
+
+        h2 {
+            text-shadow: 0 0 5px #00ffcc, 0 0 10px #ff00ff;
+            color: #00ffcc;
+        }
+
+        .card {
+            background-color: #010817;
+            border: 2px solid;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 255, 1);
+        }
+
+        .card-title, .card-text {
+            color: #00ffcc;
+        }
+
+        .card.green {
+            border-color: #0f6f02;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+        }
+
+        .card.red {
+            border-color: #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+        }
+
+        .card.aqua {
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+        }
+
+        .card.green .card-text, .card.green .card-title {
+            color: #00ff00;
+        }
+
+        .card.red .card-text, .card.red .card-title {
+            color: #ff0000;
+        }
+
+        .card.aqua .card-text, .card.aqua .card-title {
+            color: #00ffff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="#">Aawara's Portfolio</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="#about">About Me</a></li>
+                <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+                <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- About Me Section -->
+        <section id="about">
+            <h2>About Me</h2>
+            <p>Hi, I'm Aawara! I'm a passionate cybersecurity enthusiast specializing in ethical hacking, penetration testing, and cybersecurity analysis. Welcome to my portfolio!</p>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects">
+            <h2>My Projects</h2>
+            <div class="card green mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Cybersecurity Monitoring Dashboard</h5>
+                    <p class="card-text">Built using Flask and MongoDB to monitor cryptographic assets in real-time.</p>
+                </div>
+            </div>
+            <div class="card red mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Network Vulnerability Scanner</h5>
+                    <p class="card-text">A Python-based tool to detect and report network vulnerabilities efficiently.</p>
+                </div>
+            </div>
+            <div class="card aqua mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">IoT Asset Management Tool</h5>
+                    <p class="card-text">Designed for chemical industries to manage and secure IoT devices.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills">
+            <h2>Skills</h2>
+            <ul>
+                <li>Penetration Testing</li>
+                <li>Python Scripting</li>
+                <li>SQL and NoSQL Databases</li>
+                <li>Web Application Security</li>
+                <li>Network Analysis</li>
+            </ul>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <h2>Contact Me</h2>
+            <p>Feel free to reach out at <a href="mailto:aawara@example.com">aawara@example.com</a>.</p>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3 text-center">
+        <div class="container">
+            <p>&copy; 2025 Aawara. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

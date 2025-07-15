@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIRA Tool</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #010817;
+            color: #00ffcc;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .navbar, .footer {
+            background-color:#010817;
+        }
+
+        .navbar-brand, .nav-link {
+            color: #00ffcc !important;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #800080 !important; /* Purple hover effect */
+        }
+
+        .card-title, .card-text {
+            color: #00ffcc;
+        }
+
+        .btn-primary, .btn-success {
+            background-color: #00ffcc;
+            border: none;
+            color: #111;
+        }
+
+        .btn-primary:hover, .btn-success:hover {
+            background-color: #008080;
+            color: #fff;
+        }
+
+        .section {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .active {
+            display: block !important;
+        }
+
+        .sidebar {
+            background-color: #010817;
+            padding: 20px;
+        }
+
+        .sidebar .nav-link {
+            color: #00ffcc !important;
+            margin: 10px 0;
+        }
+
+        .sidebar .nav-link:hover {
+            color: #ff00ff !important;
+        }
+
+        /* Glowing Input Field */
+        input.form-control {
+            background-color: #111;
+            border: 1px solid #00ffcc;
+            color: #00ffcc;
+        }
+
+        input.form-control:focus {
+            box-shadow: 0 0 10px #ff0000;
+        }
+        
+        .table th, .table td {
+            color: #00ffcc;
+        }
+
+        .table-bordered th, .table-bordered td {
+            border: 2px solid #00ffff;
+        }
+
+        .card {
+            background-color: #010817;
+            border: 2px solid;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card.green {
+            border-color: #0f6f02;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+        }
+
+        .card.red {
+            border-color: #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+        }
+
+        .card.aqua {
+            border-color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+        }
+
+        .card:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 255, 1);
+        }
+        /* Specific text color for each card */
+.card.green .card-text, .card.green .card-title {
+    color: #00ff00; /* Green text color */
+}
+
+.card.red .card-text, .card.red .card-title {
+    color: #ff0000; /* Red text color */
+}
+
+.card.aqua .card-text, .card.aqua .card-title {
+    color: #00ffff; /* Aqua text color */
+}
+
+
+
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 255, 204, 0.1);
+        }
+
+        .footer {
+            background-color: #111;
+            color: #00ffcc;
+        }
+
+        .footer p {
+            margin: 10px;
+        }
+
+        h2 {
+            text-shadow: 0 0 5px #00ffcc, 0 0 10px #ff00ff;
+            color: #00ffcc;
+        }
+
+        #code-animation {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            width: 200px;
+            height: 330px;
+            background-color: #010817;
+            color: #00ffcc;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0px 0px 15px rgba(0, 255, 255, 0.5);
+        }
+
+        #code-animation span {
+            display: block;
+            white-space: pre;
+            animation: scrolling 8s linear infinite;
+            font-size: 12px;
+        }
+
+        @keyframes scrolling {
+            0% { transform: translateY(100%); }
+            100% { transform: translateY(-100%); }
+        }
+        /* Circular Risk Card Styles */
+.risk-card {
+    width: 200px;
+    height: 200px;
+    background-color: #010817;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 0 15px rgb(2, 198, 2);
+    text-align: center;
+    margin: 20px auto;
+}
+.row {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+   
+  
+}
+
+.risk-label {
+    color: #00ffcc; /* Same color as the percentage */
+    font-size: 18px; /* Adjust size as needed */
+    margin-top: 10px; /* Space between the circle and the text */
+    text-align: center; /* Center the text */
+}
+
+.progress-circle {
+    width: 180px;
+    height: 180px;
+    background: conic-gradient(
+        #ff0000 calc(var(--percent) * 1%), 
+        #059611 calc(var(--percent) * 1%)
+    );
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.progress-circle::before {
+    content: '';
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background-color: #010817;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.progress-circle .percent {
+    font-size: 36px;
+    color: #ff0000;
+    z-index: 2;
+}
+
+.percent span {
+    font-size: 20px;
+}
+.progress-container {
+    margin-top: 30px;
+    text-align: center; /* Centers the title and progress bar */
+}
+
+.progress {
+    width: 80%; /* You can change the width based on your layout */
+    height: 20px;
+    background-color: #010817; /* Background color of the progress bar track */
+    margin: 0 auto; /* Center the progress bar */
+}
+
+.progress-bar {
+    transition: width 0.6s; /* Smooth transition */
+    background-color: #00ff59; /* Neon red for the progress bar */
+}
+
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <!-- Login Button -->
+        <!-- Navigation Brand -->
+        <a class="navbar-brand" href="#">CIRA Tool</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('dashboard')">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('asset-management')">Asset Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('risk-assessment')">Risk Assessment</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('monitoring')">Monitoring</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('reports')">Reports</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('settings')">Settings</a></li>
+                <li class="nav-item"><a class="nav-link" href="login.html" onclick="showSection('login')">login</a></li>
+            </ul>
+        </div>
+  
+    </nav>
+    
+
+    <!-- Main Container -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block sidebar">
+                <div class="sidebar-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('encryption-keys')">Encryption Keys</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('certificates')">Certificates</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('protocols')">Protocols</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('hsms')">HSMs</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#" onclick="showSection('devices')">Check Devices</a></li>
+                    </ul>
+                </div>
+            </nav>
+            
+            <!-- Content Area -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+                <!-- Dashboard Section -->
+                <div id="dashboard" class="section active">
+                    <h2>Dashboard Overview</h2>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card mb-3 green">
+                                <div class="card-body">
+                                    <h5 class="card-title">Total Cryptographic Assets</h5>
+                                    <p class="card-text">128</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-3 red">
+                                <div class="card-body">
+                                    <h5 class="card-title">High Risk Assets</h5>
+                                    <p class="card-text">5</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card mb-3 aqua">
+                                <div class="card-body">
+                                    <h5 class="card-title">Expiring Certificates</h5>
+                                    <p class="card-text">3</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Cryptographic Inventory Risk Assessment</h2>
+<canvas id="cryptoRiskChart" style="width: 60%; height: 5%;"></canvas>
+<!-- Separate Progress Bar Section -->
+<div class="progress-container">
+    <h3>Security Progress</h3>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: 75%; background-color: #00ffcc;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="risk-card">
+            <div class="progress-circle" style="--percent: 75;">
+                <div class="percent">
+                    75<span>%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="risk-label">Security Risk</div>
+
+ <!-- Sample Table -->
+ <h2>Sample Table</h2>
+ <table class="table table-bordered table-striped">
+     <thead>
+         <tr>
+             <th>Asset Name</th>
+             <th>Risk Level</th>
+             <th>Actions</th>
+         </tr>
+     </thead>
+     <tbody>
+         <tr>
+             <td>Asset 1</td>
+             <td>Low</td>
+             <td><button class="btn btn-success">View</button></td>
+         </tr>
+         <tr>
+             <td>Asset 2</td>
+             <td>Medium</td>
+             <td><button class="btn btn-success">View</button></td>
+         </tr>
+         <tr>
+             <td>Asset 3</td>
+             <td>High</td>
+             <td><button class="btn btn-success">View</button></td>
+         </tr>
+     </tbody>
+ </table>
+
+</main>
+</div>
+</div>
+
+
+
+                <!-- Asset Management Section -->
+                <div id="asset-management" class="section">
+                    <h2>Asset Management</h2>
+                    <div class="card">
+                        <div class="card-header">Manage Cryptographic Assets</div>
+                        <div class="card-body">
+                            <button class="btn btn-success" onclick="addAsset()">Add New Asset</button>
+                            <ul id="assetList" class="list-group mt-3"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Risk Assessment Section -->
+                <div id="risk-assessment" class="section">
+                    <h2>Risk Assessment</h2>
+                    <p>View and manage risk levels associated with cryptographic assets.</p>
+                </div>
+
+                <!-- Monitoring Section -->
+                <div id="monitoring" class="section">
+                    <h2>Monitoring</h2>
+                    <p>Real-time monitoring of cryptographic activity.</p>
+                </div>
+
+                <!-- Reports Section -->
+                <div id="reports" class="section">
+                    <h2>Reports</h2>
+                    <p>Generate reports for asset management and risk analysis.</p>
+                </div>
+
+                <!-- Settings Section -->
+                <div id="settings" class="section">
+                    <h2>Settings</h2>
+                    <p>Configure system settings and preferences.</p>
+                </div>
+            </main>
+        </div>
+    </div> 
+
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3 text-center">
+        <div class="container">
+            <p>&copy; 2024 CIRA Tool. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Code Animation -->
+    <div id="code-animation">
+        <div id="code-animation">
+            <span>> Initializing encryption module...</span>
+            <span>> Loading security protocols...</span>
+            <span>> Generating keys for SSL...</span>
+            <span>> Connection established successfully.</span>
+            <span>> System integrity verified.</span>
+            <span>> Initializing encryption module...</span>
+<span>> Loading security protocols...</span>
+<span>> Generating keys for SSL...</span>
+<span>> Establishing connection to server...</span>
+<span>> Verifying digital certificates...</span>
+<span>> Scanning network vulnerabilities...</span>
+<span>> Securing communication channels...</span>
+<span>> Analyzing threat reports...</span>
+<span>> Encryption key rotation in progress...</span>
+<span>> System integrity verified.</span>
+<span>> Fetching asset logs...</span>
+<span>> Generating compliance reports...</span>
+<span>> Assessing risk factors...</span>
+<span>> Network audit completed successfully.</span>
+<span>> Disconnecting from server...</span>
+<span>> Updating encryption protocols...</span>
+<span>> System shutdown initiated...</span>
+        </div>
+    </div>
+    <!-- Bootstrap JS and Dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+        // Risk assessment data
+        const riskData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'], // Example months
+            datasets: [{
+                label: 'Risk Level',
+                data: [2, 3, 4, 3.5, 5, 6, 4.8, 5.2, 6, 7], // Sample risk levels for each month
+                backgroundColor: 'rgba(0, 255, 204, 0.1)', // Light background color
+                borderColor: '#00ffcc', // Aqua border color
+                borderWidth: 2,
+                fill: true,
+                pointBackgroundColor: '#ff00ff', // Pink points
+                pointBorderColor: '#ff00ff'
+            }]
+        };
+    
+        // Configurations for the line graph
+        const config = {
+            type: 'line',
+            data: riskData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: true, // Maintain the chart's aspect ratio
+                aspectRatio: 3, // Controls the aspect ratio (width / height)
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#00ffcc' // Aqua color for y-axis labels
+                        },
+                        grid: {
+                            color: 'rgba(0, 255, 204, 0.2)' // Light aqua grid lines
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#00ffcc' // Aqua color for x-axis labels
+                        },
+                        grid: {
+                            color: 'rgba(0, 255, 204, 0.2)' // Light aqua grid lines
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#00ffcc' // Aqua color for legend labels
+                        }
+                    }
+                }
+            }
+        };
+    
+        // Render the chart
+        const ctx = document.getElementById('cryptoRiskChart').getContext('2d');
+        const cryptoRiskChart = new Chart(ctx, config);
+    </script>
+    <script>// Example function to set dynamic percentage
+        function setRiskPercentage(percentage) {
+            const progressCircle = document.querySelector('.progress-circle');
+            progressCircle.style.setProperty('--percent', percentage);
+            progressCircle.querySelector('.percent').innerHTML = `${percentage}<span>%</span>`;
+        }
+        
+        // Example: Change the percentage after 2 seconds
+        setTimeout(() => {
+            setRiskPercentage(90); // dynamically change percentage to 90%
+        }, 2000);
+        </script>
+        <script>
+           let progress = 0;
+        setInterval(() => {
+            progress += 1; // Increase progress
+            if (progress > 100) {
+                progress = 0; // Reset if it exceeds 100
+            }
+            updateProgressBar(progress);
+        }, 50); // Update every 50ms for a smooth animation
+        </script>
+        
+        
+</body>
+</html>
